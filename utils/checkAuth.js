@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import SessionMamba from '../models/SessionMamba.js'
+import SessionMamba from '../models/Session.js'
 
 export default async (req, res, next) => {
 	const token = (req.headers.authorization || '').replace(/Bearer\s?/, '')
