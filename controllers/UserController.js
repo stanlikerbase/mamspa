@@ -71,14 +71,18 @@ export const login = async (req, res) => {
 			await SessionMambaModel.findByIdAndDelete(oldestSession._id)
 		}
 
+		const { telegram, ...userData } = user._doc
+
 		// Создаем новую сессию
 		const newSession = new SessionMambaModel({
 			userId: user._id,
 			token: generateToken(user._id),
 		})
+
 		await newSession.save()
+
 		await incrementConnectionCount(user._id)
-		res.json({ token: newSession.token })
+		res.json({ token: newSession.token, telegram })
 	} catch (error) {
 		console.error('Login error:', error)
 		res.status(500).json({ message: 'Не удалось авторизоваться' })
