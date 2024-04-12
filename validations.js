@@ -5,6 +5,9 @@ export const registerValidation = [
 	body('password', 'Пароль должен быть минимум 5 символов').isLength({
 		min: 5,
 	}),
+	body('telegram', 'Телеграм должен быть минимум 5 символов').isLength({
+		min: 5,
+	}),
 	body('fullName', 'Укажите имя').isLength({ min: 2 }),
 	body('avatarUrl', 'Неправильная ссылка на аватар').optional().isURL(),
 ]
