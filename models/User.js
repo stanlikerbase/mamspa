@@ -24,6 +24,10 @@ const MambaUserSchema = new mongoose.Schema(
 			required: true,
 			unique: true,
 		},
+		subscribe: {
+			type: String,
+			required: true,
+		},
 		passwordHash: {
 			type: String,
 			required: true,
