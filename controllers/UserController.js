@@ -18,6 +18,7 @@ export const register = async (req, res) => {
 
 		const doc = new MambaUserModel({
 			email: req.body.email,
+			subscribe: req.body.subscribe,
 			fullName: req.body.fullName,
 			telegram: req.body.telegram,
 			avatarUrl: req.body.avatarUrl,
