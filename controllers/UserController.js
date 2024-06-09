@@ -98,6 +98,51 @@ export const login = async (req, res) => {
 	}
 }
 
+export const changePassword = async (req, res) => {
+    try {
+        const { email, oldPassword, newPassword } = req.body;
+
+        // Находим пользователя по email
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Пользователь не найден',
+            });
+        }
+
+        // Проверяем старый пароль
+        const isValidOldPass = await bcrypt.compare(oldPassword, user.passwordHash);
+        if (!isValidOldPass) {
+            return res.status(400).json({
+                success: false,
+                message: 'Старый пароль неверен',
+            });
+        }
+
+        // Генерируем хеш нового пароля
+        const salt = await bcrypt.genSalt(10);
+        const newHash = await bcrypt.hash(newPassword, salt);
+
+        // Обновляем пароль в базе данных
+        user.passwordHash = newHash;
+        await user.save();
+
+        res.json({
+            success: true,
+            message: 'Пароль успешно изменен',
+        });
+    } catch (error) {
+        console.error('Ошибка при изменении пароля:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Произошла ошибка при изменении пароля',
+        });
+    }
+};
+
+
 export const logout = async (req, res) => {
 	try {
 		const token = req.headers.authorization?.split(' ')[1]
