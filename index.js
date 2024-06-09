@@ -28,6 +28,7 @@ app.get(
 	UserController.deleteAllUserSessionsByEmail
 )
 app.post('/auth/register', registerValidation, UserController.register)
+app.post('/auth/change-pass', loginValidation, UserController.changePassword)
 
 app.get('/auth/me', checkAuth, UserController.getMe)
 app.post('/save-settings', checkAuth, UserController.updateUserSetting)
